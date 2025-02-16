@@ -131,23 +131,23 @@ const updateCartCount=change=>{
 };
  document.querySelector(".btn-checkout").addEventListener("click",()=>{
     let amountRecieved=document.querySelector(".total-price").textContent;
-    let discount10=amountRecieved.replace("$","")*.9;
-    let discount5=amountRecieved.replace("$","")*.95;
+    let discount10=(amountRecieved.replace("$","")*.9).toFixed(2);
+    let discount5=(amountRecieved.replace("$","")*.95).toFixed(2);
 
 
     let discount=prompt("Eenter a Promo Code to get discount");
     if (discount==='ostad10'){
         
         
-        alert(`You have got 10% discount and Discount Price is  ${discount10}, Enjoy Shopping with Us`);
+        alert(`You have got 10% discount and Discount Price is  $${discount10}, Enjoy Shopping with Us`);
     }
     else if(discount==='ostad5'){
         
         
-        alert(`You have got 5% discount and Discount Price is  ${discount5}, Enjoy Shopping with Us`);
+        alert(`You have got 5% discount and Discount Price is  $${discount5}, Enjoy Shopping with Us`);
     }
     else{
-        alert(`Invalid Promo Code, Total Price is  ${amountRecieved}, with no Discount`);
+        alert(`Invalid Promo Code, Total Price is  $${amountRecieved}, with no Discount`);
     }
     cartContent.querySelectorAll(".cart-box").forEach(element=>{element.remove();updateCartCount(-1);});
     const cart=document.querySelector(".cart");
