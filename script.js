@@ -103,11 +103,59 @@ const updateTotalPrice=()=>{
 
     });
     let grandTotal=total.toFixed(2)
+    let pricediscount=document.querySelector(".discountprice")
     totalPriceElement.textContent=`$${grandTotal}`;
+    pricediscount.textContent=`Discount Price $${grandTotal}`;
+    
+    let inputpromobox=document.getElementById("inputpromocode");
+    inputpromobox.addEventListener("keyup",()=>{
+        btnGetdiscount.classList.remove("btn-hidden");
+        pricediscount.classList.add("btn-hidden")
+        
+    });
+    function executeDiscount() {
+        btnGetdiscount.classList.add("btn-hidden");
+        pricediscount.classList.remove("btn-hidden")
+        let text10discount=`Promocode valid, You have got 10% discount`;
+        let text5discount=`Promocode valid, You have got 5% discount`;
+        let textnodiscount=`No valid promocode, use valid promocode to get discount`;
+        
+        let promocodetext0="No Discount for using invalid promocode";
+            if (inputpromobox.value =="ostad5"){
+                let discountprice=grandTotal*.95;
+                document.querySelector(".discountstatus").textContent=text5discount;
+                pricediscount.textContent=`Discount Price $${discountprice}`;
+            }
+            else if (inputpromobox.value =="ostad10"){
+                let discountprice=grandTotal*.9;
+                document.querySelector(".discountstatus").innerHTML=text10discount;
+                pricediscount.textContent=`Discount Price $${discountprice}`;
+            }
+            else if (inputpromobox.value ==""){
+                
+                document.querySelector(".discountstatus").innerHTML=textdiscount;
+                pricediscount.textContent=`Discount Price $${grandTotal}`;
+            }
+            else {
+                
+                document.querySelector(".discountstatus").innerHTML=textnodiscount;
+                pricediscount.textContent=`Discount Price $${grandTotal}`;
+            }
+            
+            inputpromobox.value =""
+            
+
+        };
+    let btnGetdiscount=document.querySelector(".getdiscount");
+    btnGetdiscount.addEventListener("click",executeDiscount);
+
+    
+
     if (grandTotal==0){
         document.querySelector(".cart-title").textContent="Your Cart is Empty!";
         document.querySelector(".btn-checkout").classList.add("btn-hidden");
         document.querySelector(".btn-clearcart").classList.add("btn-hidden");
+
     }
     else{
         document.querySelector(".cart-title").textContent="Your Cart";
@@ -129,31 +177,18 @@ const updateCartCount=change=>{
     };
 
 };
+
  document.querySelector(".btn-checkout").addEventListener("click",()=>{
-    let amountRecieved=document.querySelector(".total-price").textContent;
-    let discount10=(amountRecieved.replace("$","")*.9).toFixed(2);
-    let discount5=(amountRecieved.replace("$","")*.95).toFixed(2);
-
-
-    let discount=prompt("Eenter a Promo Code to get discount");
-    if (discount==='ostad10'){
+       
+        alert(`Thanks for Paying ${document.querySelector(".discountprice").textContent.replace("Discount Price ","")}`);
         
-        
-        alert(`You have got 10% discount and Discount Price is  ${discount10}, Enjoy Shopping with Us`);
-    }
-    else if(discount==='ostad5'){
-        
-        
-        alert(`You have got 5% discount and Discount Price is  ${discount5}, Enjoy Shopping with Us`);
-    }
-    else{
-        alert(`Invalid Promo Code, Total Price is  ${amountRecieved}, with no Discount`);
-    }
+    
     cartContent.querySelectorAll(".cart-box").forEach(element=>{element.remove();updateCartCount(-1);});
     const cart=document.querySelector(".cart");
     cart.classList.remove("active");
     let cartItemCountBadge=document.querySelector(".cart-item-count");
     cartItemCountBadge.style.visibility="hidden";
+    document.querySelector(".discountstatus").innerHTML="Input a valid promocode to get discount";
     updateTotalPrice();
      });
 
